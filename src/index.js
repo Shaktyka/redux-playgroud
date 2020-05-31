@@ -13,11 +13,11 @@ const reducer = (state = 0, action) => {
   }
 };
 
+// Обёртка вокруг функции-редьюсера
 const store = createStore(reducer);
+store.subscribe(() => {
+  console.log(store.getState());
+});
 
-console.log(store.getState());
 store.dispatch({ type: 'INC' });
-console.log(store.getState());
-
-
-
+store.dispatch({ type: 'INC' });
