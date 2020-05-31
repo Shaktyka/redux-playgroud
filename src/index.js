@@ -1,5 +1,9 @@
 import { createStore } from 'redux';
 
+const decBtn = document.querySelector('.dec');
+const incBtn = document.querySelector('.inc');
+const counter = document.querySelector('.counter');
+
 // state - текущее состояние
 // action - действие, которое нужно совершить. Это обычный объект
 const reducer = (state = 0, action) => {
@@ -8,6 +12,9 @@ const reducer = (state = 0, action) => {
     case 'INC':
       return state + 1;
 
+    case 'DEC':
+      return state - 1;
+
     default:
       return state;
   }
@@ -15,9 +22,17 @@ const reducer = (state = 0, action) => {
 
 // Обёртка вокруг функции-редьюсера
 const store = createStore(reducer);
-store.subscribe(() => {
-  console.log(store.getState());
+
+decBtn.addEventListener('click', () => {
+  store.dispatch({ type: 'DEC' });
 });
 
-store.dispatch({ type: 'INC' });
-store.dispatch({ type: 'INC' });
+incBtn.addEventListener('click', () => {
+  store.dispatch({ type: 'INC' });
+});
+
+const update = () => {
+  counter.textContent = store.getState();
+};
+
+store.subscribe(update);
