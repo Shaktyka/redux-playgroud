@@ -1,31 +1,19 @@
-import { createStore, bindActionCreators } from 'redux';
-import * as actions from './actions';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import reducer from './reducer';
 
-const decBtn = document.querySelector('.dec');
-const incBtn = document.querySelector('.inc');
-const rndBtn = document.querySelector('.rnd');
-const counter = document.querySelector('.counter');
+import App from './components/app';
 
 // Обёртка вокруг функции-редьюсера
 const store = createStore(reducer);
-const { dispatch } = store;
 
-const { inc, dec, rnd } =
-  bindActionCreators(actions, dispatch);
-
-// Обработчики кликов по кнопкам
-decBtn.addEventListener('click', dec);
-
-incBtn.addEventListener('click', inc);
-
-rndBtn.addEventListener('click', () => {
-  const payload = Math.ceil(Math.random() * 10);
-  rnd(payload);
-});
-
-const update = () => {
-  counter.textContent = store.getState();
-};
-
-store.subscribe(update);
+// Теперь доступ к store будут иметь любые комп-ты
+ReactDOM.render(
+  <Provider store={ store }>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
